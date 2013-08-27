@@ -1,0 +1,6 @@
+[submodule "protected/extensions/giix"]
+	path = protected/extensions/giix
+	url = git://github.com/alari/giix.git
+[submodule "protected/modules/staticPages"]
+	path = protected/modules/staticPages
+	url = git://github.com/alari/yii-staticPages.git

@@ -20,10 +20,13 @@ return array(
 		'application.components.*',
 	'application.modules.user.models.*',
 	'application.modules.user.components.*',
+	'ext.giix.components.*',
 		
 	),
 
 	'modules'=>array(
+		
+		'staticPages',
 		
 	'user'=>array(
 			# encrypting method (php hash function)
@@ -66,6 +69,7 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 			'generatorPaths'=>array(
 				'bootstrap.gii',
+				'ext.giix.generators', 
 			),
 			
 		),
@@ -90,16 +94,18 @@ return array(
 			'class'=>'bootstrap.components.Bootstrap',
 			),
 		// uncomment the following to enable URLs in path-format
-		/*
-		'urlManager'=>array(
+		
+		/*'urlManager'=>array(
 			'urlFormat'=>'path',
+			'showScriptName' => false,
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+				'page/<id:[\w\-]+>' => 'staticPages/staticPages/view',
 			),
-		),
-		*/
+		),*/
+		
 		/*'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 			'tablePrefix' => 'tbl_',

@@ -7,7 +7,10 @@ return array(
 	'name'=>'My Console Application',
 	
 'modules'=>array(
-	#...
+	'staticPages' => array(
+			'modelClass'=>'StaticPage'
+			),
+	
 	'user'=>array(
 			# encrypting method (php hash function)
 			'hash' => 'md5',
@@ -48,8 +51,13 @@ return array(
 	// application components
 	'components'=>array(
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
+			'connectionString' => 'mysql:host=localhost;dbname=kyattsu_testss',
+			'emulatePrepare' => true,
+			'username' => 'kyattsu_testss',
+			'password' => '123456',
+			'charset' => 'utf8',
+			'tablePrefix' => 'tbl_',
+			),
 		// uncomment the following to use a MySQL database
 		/*
 		'db'=>array(

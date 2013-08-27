@@ -1,133 +1,86 @@
-Yii-User Installation
-=====================
+yii-staticPages
+===============
 
-Download
---------
+Yii module to create and manage simple static pages
 
-Download or checkout (SVN/Git) from http://yii-user.2mx.org and unpack files in your protected/modules/user
+Installation
+====
 
-Git clone
----------
+0) Add giix dependency. You may install it from yiiframework.com, or add submodule like the following:
 
-    clone git git@github.com:mishamx/yii-user.git
+`git submodule add git://github.com/alari/giix.git protected/extensions/giix`
 
-Configure
----------
 
-Change your config main:
-
-    return array(
+```php
+<?
+    'import' => array(
         #...
-        // autoloading model and component classes
-        'import'=>array(
-            'application.models.*',
-            'application.components.*',
-            'application.modules.user.models.*',
-            'application.modules.user.components.*',
-        ),
-
+        'ext.giix.components.*',
         #...
-        'modules'=>array(
-            #...
-            'user'=>array(
-                # encrypting method (php hash function)
-                'hash' => 'md5',
-
-                # send activation email
-                'sendActivationMail' => true,
-
-                # allow access for non-activated users
-                'loginNotActiv' => false,
-
-                # activate user on registration (only sendActivationMail = false)
-                'activeAfterRegister' => false,
-
-                # automatically login from registration
-                'autoLogin' => true,
-
-                # registration path
-                'registrationUrl' => array('/user/registration'),
-
-                # recovery password path
-                'recoveryUrl' => array('/user/recovery'),
-
-                # login form path
-                'loginUrl' => array('/user/login'),
-
-                # page after login
-                'returnUrl' => array('/user/profile'),
-
-                # page after logout
-                'returnLogoutUrl' => array('/user/login'),
+    ),
+    #...
+    'modules' => array(
+        #...
+        'gii' => array(
+            'class' => 'system.gii.GiiModule',
+            'generatorPaths' => array(
+                'ext.giix.generators', // giix generators
             ),
-            #...
-        ),
-
-        #...
-        // application components
-        'components'=>array(
-        #...
-            'db'=>array(
-            #...
-                'tablePrefix' => 'tbl_',
-            #...
-            ),
-            #...
-            'user'=>array(
-                // enable cookie-based authentication
-                'class' => 'WebUser',
-            ),
-        #...
         ),
         #...
-    );
+    ),
 
-Change your config console:
+```
 
-    return array(
-        #...
-        'modules'=>array(
-            #...
-            'user'=>array(
-                # encrypting method (php hash function)
-                'hash' => 'md5',
+1) Add static pages submodule:
 
-                # send activation email
-                'sendActivationMail' => true,
+```bash
+git submodule add git://github.com/alari/yii-staticPages.git protected/modules/staticPages
+git submodule update
+```
 
-                # allow access for non-activated users
-                'loginNotActiv' => false,
+Or, optionnaly, download and unzip it.
 
-                # activate user on registration (only sendActivationMail = false)
-                'activeAfterRegister' => false,
+2) Modify your `main.php` config file:
+```php
+<?
+'components' => array(
+        'urlManager' => array(
+            'urlFormat' => 'path',
+            'showScriptName' => false,
+            'rules' => array(
 
-                # automatically login from registration
-                'autoLogin' => true,
+                'page/<id:[\w\-]+>' => 'staticPages/staticPages/view',
+```
 
-                # registration path
-                'registrationUrl' => array('/user/registration'),
+And in _modules_ section:
 
-                # recovery password path
-                'recoveryUrl' => array('/user/recovery'),
-
-                # login form path
-                'loginUrl' => array('/user/login'),
-
-                # page after login
-                'returnUrl' => array('/user/profile'),
-
-                # page after logout
-                'returnLogoutUrl' => array('/user/login'),
+```php
+<?
+        'staticPages' => array(
+            "regions"=>array(
+                ""=>"-",
+                "mainMenu",
+                ...
             ),
-            #...
+            'view'=>'//??? whatever view',
+            'modelClass'=>'StaticPage'
         ),
-        #...
-    );
+```
 
-Install
--------
+You also may override `additionalFields()` in model class.
 
-Run command:
-    yiic migrate --migrationPath=user.migrations
+3) Run migration script:
 
-Input admin login, email and password
+`./yiic migrate --migrationPath=staticPages.migrations`
+
+Usage
+======
+
+1. Use it to store any static pages on a small and simple website.
+2. Upload images and files in WYSIWYG.
+3. Extend `StaticPage` model class to add functionality.
+4. Use parent pages and regions to organize your view (main menu, contextual menus, etc.)
+5. Demand more documentation.
+
+This module works perfectly with `yii-i18n2ascii` component.
